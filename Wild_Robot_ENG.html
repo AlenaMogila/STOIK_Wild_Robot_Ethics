@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ethics Workbook: The Wild Robot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .workbook {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: floatBubble 15s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 70px;
+            height: 70px;
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 50px;
+            height: 50px;
+            bottom: 25%;
+            right: 10%;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
+
+        .page {
+            padding: 30px;
+            min-height: 600px;
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title-page {
+            background: linear-gradient(135deg, #FFE5B4 0%, #FFEAA7 100%);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-title {
+            font-size: 2.8em;
+            color: #4a6bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.6em;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .author-line {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .comic-title {
+            font-size: 1.8em;
+            color: #4a6bff;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble {
+            background: #f8f9fa;
+            border: 3px solid #4a6bff;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 30px;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-top-color: #4a6bff;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 32px;
+            width: 0;
+            height: 0;
+            border: 13px solid transparent;
+            border-top-color: #f8f9fa;
+        }
+
+        .question-bubble {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-color: #4a6bff;
+        }
+
+        .question-bubble::after {
+            border-top-color: #4a6bff;
+        }
+
+        .question-bubble::before {
+            border-top-color: #E3F2FD;
+        }
+
+        .drawing-area {
+            border: 3px dashed #F39C12;
+            border-radius: 15px;
+            min-height: 200px;
+            margin: 20px 0;
+            background: white;
+            position: relative;
+            cursor: crosshair;
+        }
+
+        .drawing-canvas {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+        }
+
+        .comic-panel {
+            border: 4px solid #4a6bff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            min-height: 180px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .panel-title {
+            background: #4a6bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #4a6bff;
+            box-shadow: 0 0 15px rgba(74, 107, 255, 0.3);
+        }
+
+        .button {
+            background: linear-gradient(45deg, #4a6bff, #6c8eff);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .page-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        .character {
+            font-size: 4em;
+            animation: bounce 2s infinite ease-in-out;
+            margin: 20px 0;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .intro-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, #D4EDDA, #C3E6CB);
+            border: 3px solid #28A745;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .drawing-tools {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-btn.active {
+            border-width: 4px;
+            transform: scale(1.2);
+        }
+
+        .scenario-box {
+            background: linear-gradient(135deg, #FFF3CD, #FFEAA7);
+            border: 3px solid #F39C12;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(74, 107, 255, 0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        .choice-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .choice-card {
+            background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+            border-radius: 15px;
+            padding: 20px;
+            width: 45%;
+            min-width: 250px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: #4a6bff;
+        }
+
+        .choice-card.selected {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-color: #4a6bff;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .workbook {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 2.2em;
+            }
+            
+            .subtitle {
+                font-size: 1.4em;
+            }
+            
+            .nav-buttons {
+                bottom: 20px;
+                right: 20px;
+                flex-direction: column;
+            }
+            
+            .page-indicator {
+                top: 20px;
+                right: 20px;
+            }
+            
+            .save-indicator {
+                bottom: 100px;
+                left: 20px;
+            }
+            
+            .button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .character {
+                font-size: 3em;
+            }
+            
+            .choice-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="workbook">
+        <div class="decoration">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        
+        <!-- Title Page -->
+        <div class="page active title-page">
+            <div style="text-align: center;">
+                <h1 class="main-title">AI ETHICS WORKBOOK</h1>
+                <h2 class="subtitle">"THE WILD ROBOT"</h2>
+                <p class="author-line">based on the book by Peter Brown</p>
+                
+                <div style="margin: 40px 0;">
+                    <div class="character">🌿🤖✨</div>
+                </div>
+                
+                <button class="button" onclick="nextPage()">Start the Adventure! 🚀</button>
+            </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="page">
+            <h2 class="comic-title">🌿 Introduction</h2>
+            <div class="speech-bubble">
+                <p class="intro-text">Welcome to the world of Roz - a robot who found herself on a deserted island and learned to live in harmony with nature and animals. This workbook will help you think about ethics, technology, and friendship.</p>
+                <p class="intro-text">Here you'll find questions for reflection 💬, drawing spaces 🎨, and even comic creation tasks!</p>
+            </div>
+            <div style="text-align: center; margin: 30px 0;">
+                <div class="character">🌲🤖🦝</div>
+                <p style="font-size: 1.1em; color: #666;">Ready to explore the world of ethics with Roz?</p>
+            </div>
+        </div>
+
+        <!-- What makes a being "alive"? -->
+        <div class="page">
+            <h2 class="comic-title">💭 What makes a being "alive"?</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Situation:</strong> Roz started as an ordinary machine but over time learned to feel, care, and love.</p>
+                <p><strong>Question:</strong> What do you think makes a being truly "alive"?</p>
+            </div>
+            
+            <div class="choice-container">
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Ability to think</h3>
+                    <p>Problem-solving and learning skills</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Ability to feel</h3>
+                    <p>Capacity to love, be sad, happy</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Ability to help</h3>
+                    <p>Caring for others and self-sacrifice</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Something else</h3>
+                    <p>Other things that make us alive</p>
+                </div>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Why do you think so? Can a machine become "alive"?</strong>
+                <textarea class="text-input" placeholder="Share your thoughts..." data-save="living-being"></textarea>
+            </div>
+        </div>
+
+        <!-- Creator Responsibility -->
+        <div class="page">
+            <h2 class="comic-title">⚖️ Creator Responsibility</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Situation:</strong> Roz's creators considered her just a "broken device" that needed to be returned, even though she became a family member for the island animals.</p>
+                <p><strong>Question:</strong> Should creators be responsible for their creations?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 If you created a robot that started to think and feel, what would you do?</strong>
+                <textarea class="text-input" placeholder="Describe your position..." data-save="responsibility"></textarea>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Draw what your responsible robot would look like ➡️</strong>
+            </div>
+            
+            <div class="drawing-area">
+                <canvas class="drawing-canvas" id="responsibleRobot" width="800" height="200"></canvas>
+            </div>
+            
+            <div class="drawing-tools">
+                <div class="color-btn active" style="background: #333;" onclick="changeColor('#333', this)"></div>
+                <div class="color-btn" style="background: #E74C3C;" onclick="changeColor('#E74C3C', this)"></div>
+                <div class="color-btn" style="background: #3498DB;" onclick="changeColor('#3498DB', this)"></div>
+                <div class="color-btn" style="background: #2ECC71;" onclick="changeColor('#2ECC71', this)"></div>
+                <div class="color-btn" style="background: #F39C12;" onclick="changeColor('#F39C12', this)"></div>
+                <div class="color-btn" style="background: #9B59B6;" onclick="changeColor('#9B59B6', this)"></div>
+                <button class="button" onclick="clearCanvas('responsibleRobot')">Clear</button>
+            </div>
+        </div>
+
+        <!-- Robot Rights -->
+        <div class="page">
+            <h2 class="comic-title">📜 Robot Rights</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Situation:</strong> RECCO robots see Roz as just "equipment," but the island animals consider her a person and friend.</p>
+                <p><strong>Question:</strong> Should thinking and feeling machines have rights?</p>
+            </div>
+            
+            <div class="choice-container">
+                <div class="choice-card" onclick="selectChoice(this, 'choice2')">
+                    <h3>Yes, of course</h3>
+                    <p>If a robot can feel, it should have rights</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice2')">
+                    <h3>Only some rights</h3>
+                    <p>Maybe not all rights like humans, but basic ones</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice2')">
+                    <h3>No, they're just machines</h3>
+                    <p>Robots are created to serve people</p>
+                </div>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 What rights do you think robots could have? (e.g., right to exist, right to friendship)</strong>
+                <textarea class="text-input" placeholder="List the rights you would give to robots..." data-save="robot-rights"></textarea>
+            </div>
+        </div>
+
+        <!-- Technology and Nature -->
+        <div class="page">
+            <h2 class="comic-title">🌍 Technology and Nature</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Situation:</strong> Roz didn't try to change nature to suit herself but learned to live in harmony with it, helping animals.</p>
+                <p><strong>Question:</strong> How can technology help nature instead of harming it?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Invent a technological invention that could help nature</strong>
+                <textarea class="text-input" placeholder="Describe your invention and how it works..." data-save="tech-nature"></textarea>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Draw your invention ➡️</strong>
+            </div>
+            
+            <div class="drawing-area">
+                <canvas class="drawing-canvas" id="techNature" width="800" height="200"></canvas>
+            </div>
+            
+            <div class="drawing-tools">
+                <div class="color-btn active" style="background: #333;" onclick="changeColor('#333', this)"></div>
+                <div class="color-btn" style="background: #E74C3C;" onclick="changeColor('#E74C3C', this)"></div>
+                <div class="color-btn" style="background: #3498DB;" onclick="changeColor('#3498DB', this)"></div>
+                <div class="color-btn" style="background: #2ECC71;" onclick="changeColor('#2ECC71', this)"></div>
+                <div class="color-btn" style="background: #F39C12;" onclick="changeColor('#F39C12', this)"></div>
+                <div class="color-btn" style="background: #9B59B6;" onclick="changeColor('#9B59B6', this)"></div>
+                <button class="button" onclick="clearCanvas('techNature')">Clear</button>
+            </div>
+        </div>
+
+        <!-- Observation and Privacy -->
+        <div class="page">
+            <h2 class="comic-title">👀 Observation and Privacy</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Situation:</strong> Roz observed animals to understand and help them, but is observation always good?</p>
+                <p><strong>Question:</strong> Where is the line between useful observation and invasion of privacy?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 When do you think observation becomes a privacy violation?</strong>
+                <textarea class="text-input" placeholder="Give examples..." data-save="privacy"></textarea>
+            </div>
+
+            <div class="choice-container">
+                <div class="choice-card" onclick="selectChoice(this, 'choice3')">
+                    <h3>Observation is acceptable</h3>
+                    <p>If the goal is to help and care for others</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice3')">
+                    <h3>Observation is unacceptable</h3>
+                    <p>Always need to ask permission</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice3')">
+                    <h3>Depends on the situation</h3>
+                    <p>Sometimes yes, sometimes no</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responsible Technology Use -->
+        <div class="page">
+            <h2 class="comic-title">🔧 Responsible Technology Use</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Situation:</strong> RECCO robots were created for one purpose but were used to capture Roz, threatening the entire island.</p>
+                <p><strong>Question:</strong> Should creators think about how their technologies might be misused?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Create rules for responsible technology use</strong>
+                <textarea class="text-input" placeholder="What rules would help use technology for good?..." data-save="responsible-tech"></textarea>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Create a comic about responsible technology use ➡️</strong>
+            </div>
+
+            <div class="comic-panel">
+                <div class="panel-title">Panel 1: Technology created</div>
+                <canvas class="drawing-canvas" id="techComic1" width="800" height="150"></canvas>
+                <div class="speech-bubble" style="margin-top: 15px;">
+                    <input type="text" placeholder="What does the creator say?" style="border: none; outline: none; width: 100%; font-size: 16px;" data-save="comic3-text">
+                </div>
+            </div>
+
+            <div class="comic-panel">
+                <div class="panel-title">Panel 2: Responsible use</div>
+                <canvas class="drawing-canvas" id="techComic2" width="800" height="150"></canvas>
+                <div class="speech-bubble" style="margin-top: 15px;">
+                    <input type="text" placeholder="How is the technology used?" style="border: none; outline: none; width: 100%; font-size: 16px;" data-save="comic4-text">
+                </div>
+            </div>
+
+            <div class="drawing-tools">
+                <div class="color-btn active" style="background: #333;" onclick="changeColor('#333', this)"></div>
+                <div class="color-btn" style="background: #E74C3C;" onclick="changeColor('#E74C3C', this)"></div>
+                <div class="color-btn" style="background: #3498DB;" onclick="changeColor('#3498DB', this)"></div>
+                <div class="color-btn" style="background: #2ECC71;" onclick="changeColor('#2ECC71', this)"></div>
+                <div class="color-btn" style="background: #F39C12;" onclick="changeColor('#F39C12', this)"></div>
+                <div class="color-btn" style="background: #9B59B6;" onclick="changeColor('#9B59B6', this)"></div>
+                <button class="button" onclick="clearCanvas('techComic1')">Clear panel 1</button>
+                <button class="button" onclick="clearCanvas('techComic2')">Clear panel 2</button>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="page">
+            <h2 class="comic-title">⚡ Conclusion</h2>
+            
+            <div class="conclusion-box">
+                <div class="character">🌍🤖</div>
+                <p style="font-size: 1.3em; margin-bottom: 20px;">Ethics is not just about rules, but about making the right choices.</p>
+                <p style="font-size: 1.1em;">May your drawings and reflections help understand what the world should be like when humans and robots live together!</p>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>The most important thing I learned from this workbook:</strong>
+                <textarea class="text-input" placeholder="Describe your main conclusions..." data-save="conclusion"></textarea>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="button" onclick="showSummary()">Show my answers 📋</button>
+                <button class="button" onclick="saveWorkbook()" style="background: linear-gradient(45deg, #2E86AB, #2E86AB);">Save my work 💾</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-indicator">
+        Page <span id="currentPage">1</span> of <span id="totalPages">9</span>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">Work saved!</div>
+
+    <div class="nav-buttons">
+        <button class="button" onclick="prevPage()" id="prevBtn" style="display: none;">← Back</button>
+        <button class="button" onclick="nextPage()" id="nextBtn">Next →</button>
+    </div>
+
+    <script>
+        let currentPageIndex = 0;
+        let isDrawing = false;
+        let currentColor = '#333';
+        const pages = document.querySelectorAll('.page');
+        const totalPages = pages.length;
+
+        document.getElementById('totalPages').textContent = totalPages;
+
+        // Page navigation
+        function showPage(index) {
+            pages.forEach(page => page.classList.remove('active'));
+            pages[index].classList.add('active');
+            
+            document.getElementById('currentPage').textContent = index + 1;
+            document.getElementById('prevBtn').style.display = index > 0 ? 'block' : 'none';
+            document.getElementById('nextBtn').style.display = index < totalPages - 1 ? 'block' : 'none';
+            
+            // Auto-save when switching pages
+            saveToLocalStorage();
+        }
+
+        function nextPage() {
+            if (currentPageIndex < totalPages - 1) {
+                currentPageIndex++;
+                showPage(currentPageIndex);
+            }
+        }
+
+        function prevPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                showPage(currentPageIndex);
+            }
+        }
+
+        // Choice selection function
+        function selectChoice(card, choiceGroup) {
+            // Remove selection from all cards in this choice group
+            document.querySelectorAll('.choice-card').forEach(c => {
+                if (c !== card && c.onclick.toString().includes(choiceGroup)) {
+                    c.classList.remove('selected');
+                }
+            });
+            
+            // Toggle selection on the chosen card
+            card.classList.toggle('selected');
+            saveToLocalStorage();
+        }
+
+        // Drawing functionality
+        function setupCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events for mobile devices
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                draw(e);
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = currentColor;
+                
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            }
+            
+            function stopDrawing() {
+                if (isDrawing) {
+                    isDrawing = false;
+                    ctx.beginPath();
+                    saveToLocalStorage(); // Save after drawing
+                }
+            }
+            
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                 e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+        }
+
+        // Initialize all canvases
+        ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(setupCanvas);
+
+        function clearCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                saveToLocalStorage(); // Save after clearing
+            }
+        }
+
+        function changeColor(color, element) {
+            currentColor = color;
+            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Auto-save functionality
+        function saveToLocalStorage() {
+            // Save text fields
+            document.querySelectorAll('[data-save]').forEach(element => {
+                if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
+                    localStorage.setItem('en_' + element.dataset.save, element.value);
+                }
+            });
+            
+            // Save selected choices
+            document.querySelectorAll('.choice-card.selected').forEach(card => {
+                const choiceText = card.querySelector('h3').textContent;
+                localStorage.setItem('en_choice_' + card.onclick.toString().match(/'(choice\d+)'/)[1], choiceText);
+            });
+            
+            // Save drawings
+            ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(canvasId => {
+                const canvas = document.getElementById(canvasId);
+                if (canvas) {
+                    localStorage.setItem('en_' + canvasId, canvas.toDataURL());
+                }
+            });
+            
+            // Show save indicator
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2000);
+        }
+
+        function loadFromLocalStorage() {
+            // Load text fields
+            document.querySelectorAll('[data-save]').forEach(element => {
+                const saved = localStorage.getItem('en_' + element.dataset.save);
+                if (saved) {
+                    element.value = saved;
+                }
+            });
+            
+            // Load selected choices
+            document.querySelectorAll('.choice-card').forEach(card => {
+                const choiceGroup = card.onclick.toString().match(/'(choice\d+)'/)[1];
+                const savedChoice = localStorage.getItem('en_choice_' + choiceGroup);
+                if (savedChoice && card.querySelector('h3').textContent === savedChoice) {
+                    card.classList.add('selected');
+                }
+            });
+            
+            // Load drawings
+            ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(canvasId => {
+                const canvas = document.getElementById(canvasId);
+                const ctx = canvas.getContext('2d');
+                const saved = localStorage.getItem('en_' + canvasId);
+                
+                if (saved) {
+                    const img = new Image();
+                    img.onload = function() {
+                        ctx.drawImage(img, 0, 0);
+                    };
+                    img.src = saved;
+                }
+            });
+        }
+
+        function saveWorkbook() {
+            saveToLocalStorage();
+            alert('Your work has been saved! You can return to it later.');
+        }
+
+        function showSummary() {
+            let summary = "📋 Your answers:\n\n";
+            
+            // Collect selected choices
+            document.querySelectorAll('.choice-card.selected').forEach(card => {
+                const question = card.closest('.page').querySelector('.comic-title').textContent;
+                const answer = card.querySelector('h3').textContent;
+                summary += `${question}: ${answer}\n\n`;
+            });
+            
+            // Collect text answers
+            document.querySelectorAll('[data-save]').forEach(element => {
+                if (element.value.trim() && element.tagName === 'TEXTAREA') {
+                    const label = element.closest('.speech-bubble').querySelector('strong').textContent;
+                    summary += `${label}\n${element.value.trim()}\n\n`;
+                }
+            });
+            
+            if (summary === "📋 Your answers:\n\n") {
+                alert("You haven't written anything yet! Fill in at least a few fields.");
+            } else {
+                alert(summary);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevPage();
+            }
+        });
+
+        // Load saved data on startup
+        window.addEventListener('load', function() {
+            loadFromLocalStorage();
+        });
+    </script>
+</body>
+</html>
