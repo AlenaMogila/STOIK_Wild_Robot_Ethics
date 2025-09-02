@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STOIK Wild Robot Ethics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,12 +13,21 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        :root {
+            --primary: #2c5364;
+            --secondary: #203a43;
+            --accent: #58a6ff;
+            --dark: #0f2027;
+            --light: #f0f6fc;
+            --success: #238636;
+        }
+        
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #f0f6fc;
+            background: linear-gradient(135deg, var(--dark), var(--secondary), var(--primary));
+            color: var(--light);
             line-height: 1.6;
-            padding: 20px;
             min-height: 100vh;
+            padding: 20px;
         }
         
         .container {
@@ -31,33 +41,58 @@
             padding: 30px 0;
             margin-bottom: 30px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .logo i {
+            color: var(--accent);
         }
         
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            color: #58a6ff;
+            color: var(--accent);
+            background: linear-gradient(45deg, var(--accent), #3da4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
         }
         
         .repo-info {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
             margin: 20px 0;
         }
         
         .info-item {
             background: rgba(255, 255, 255, 0.1);
             padding: 10px 20px;
-            border-radius: 6px;
+            border-radius: 30px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
         }
         
         .content {
@@ -71,27 +106,41 @@
             .content {
                 grid-template-columns: 1fr;
             }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
         }
         
         .card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .card h2 {
-            color: #58a6ff;
+            color: var(--accent);
             margin-bottom: 15px;
             font-size: 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .file-list {
@@ -102,18 +151,25 @@
             padding: 12px 15px;
             margin-bottom: 10px;
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .file-list li:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateX(5px);
         }
         
         .file-list a {
-            color: #58a6ff;
+            color: var(--accent);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-weight: 500;
         }
         
         .file-list a:hover {
@@ -144,18 +200,47 @@
         }
         
         .btn {
-            display: inline-block;
-            background: #238636;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--success);
             color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 12px 25px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: 500;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
         }
         
         .btn:hover {
             background: #2ea043;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn i {
+            font-size: 1.1rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(88, 166, 255, 0.1);
         }
         
         footer {
@@ -164,73 +249,126 @@
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             opacity: 0.7;
+            font-size: 0.9rem;
         }
         
-        .icon {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
+        .robot-animation {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .robot {
+            font-size: 4rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .philosophy-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .philosophy-section h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .philosophy-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+        
+        .philosophy-point {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .philosophy-point h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <i class="fas fa-feather-alt"></i>
+            </div>
             <h1>STOIK Wild Robot Ethics</h1>
-            <p class="subtitle">Исследование этики диких роботов через призму стоицизма</p>
+            <p class="subtitle">Исследование этики автономных роботов через призму стоицизма</p>
             
             <div class="repo-info">
                 <div class="info-item">
-                    <span class="icon">📦</span>
+                    <i class="fas fa-code-branch"></i>
                     <span>1 Branch</span>
                 </div>
                 <div class="info-item">
-                    <span class="icon">🏷️</span>
+                    <i class="fas fa-tag"></i>
                     <span>0 Tags</span>
                 </div>
                 <div class="info-item">
-                    <span class="icon">⭐</span>
+                    <i class="fas fa-star"></i>
                     <span>0 Stars</span>
                 </div>
                 <div class="info-item">
-                    <span class="icon">👀</span>
+                    <i class="fas fa-eye"></i>
                     <span>0 Watching</span>
                 </div>
                 <div class="info-item">
-                    <span class="icon">🍴</span>
+                    <i class="fas fa-code-fork"></i>
                     <span>0 Forks</span>
                 </div>
             </div>
         </header>
         
+        <div class="robot-animation">
+            <div class="robot">🤖</div>
+        </div>
+        
         <div class="content">
             <div class="card">
-                <h2>Файлы проекта</h2>
+                <h2><i class="fas fa-file-code"></i> Файлы проекта</h2>
                 <ul class="file-list">
                     <li>
-                        <a href="#">
-                            <span class="icon">📄</span>
+                        <a href="Wild_Robot_RUS.html">
+                            <i class="fas fa-file"></i>
                             <span>Wild_Robot_RUS.html</span>
                         </a>
                         <span class="commit-info">11 минут назад</span>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="icon">📄</span>
+                        <a href="Wild_Robot_ENG.html">
+                            <i class="fas fa-file"></i>
                             <span>Wild_Robot_ENG.html</span>
                         </a>
                         <span class="commit-info">4 минуты назад</span>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="icon">📄</span>
+                        <a href="Index.html">
+                            <i class="fas fa-file-alt"></i>
                             <span>Index.html</span>
                         </a>
                         <span class="commit-info">14 минут назад</span>
                     </li>
                     <li>
                         <a href="#">
-                            <span class="icon">📄</span>
+                            <i class="fas fa-book"></i>
                             <span>README.md</span>
                         </a>
                         <span class="commit-info">Недавно</span>
@@ -239,7 +377,7 @@
             </div>
             
             <div class="card">
-                <h2>Последние коммиты</h2>
+                <h2><i class="fas fa-code-commit"></i> Последние коммиты</h2>
                 <div class="commits">
                     <div class="commit">
                         <div>
@@ -266,8 +404,34 @@
             </div>
         </div>
         
-        <div style="text-align: center; margin: 30px 0;">
-            <a href="#" class="btn">Просмотреть код на GitHub</a>
+        <div class="philosophy-section">
+            <h2><i class="fas fa-brain"></i> Философия проекта</h2>
+            <div class="philosophy-content">
+                <div class="philosophy-point">
+                    <h3><i class="fas fa-shield-alt"></i> Стоицизм</h3>
+                    <p>Изучение принципов стоицизма и их применение к этике искусственного интеллекта и автономных систем.</p>
+                </div>
+                <div class="philosophy-point">
+                    <h3><i class="fas fa-cogs"></i> Робоэтика</h3>
+                    <p>Анализ этических дилемм, возникающих при взаимодействии автономных роботов с человеком и окружающей средой.</p>
+                </div>
+                <div class="philosophy-point">
+                    <h3><i class="fas fa-leaf"></i> Дикая природа</h3>
+                    <p>Исследование взаимодействия роботов с естественной средой и экосистемами без человеческого контроля.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <a href="https://github.com/AlenaMogila/STOIK_Wild_Robot_Ethics" class="btn">
+                <i class="fab fa-github"></i> Просмотреть код на GitHub
+            </a>
+            <a href="Wild_Robot_RUS.html" class="btn btn-outline">
+                <i class="fas fa-book-open"></i> Русская версия
+            </a>
+            <a href="Wild_Robot_ENG.html" class="btn btn-outline">
+                <i class="fas fa-book-open"></i> English version
+            </a>
         </div>
         
         <footer>
@@ -277,17 +441,30 @@
     </div>
 
     <script>
-        // Простой скрипт для имитации работы с репозиторием
+        // Добавляем текущий год в футер
         document.addEventListener('DOMContentLoaded', function() {
             const currentYear = new Date().getFullYear();
             document.querySelector('footer p').innerHTML = `© ${currentYear} STOIK Wild Robot Ethics Project. Все права защищены.`;
             
-            // Добавляем обработчики для файлов
-            document.querySelectorAll('.file-list a').forEach(link => {
+            // Анимация для карточек при загрузке
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+            
+            // Имитация загрузки файлов
+            const fileLinks = document.querySelectorAll('.file-list a');
+            fileLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const fileName = this.querySelector('span:nth-child(2)').textContent;
-                    alert(`В реальном проекте здесь открылся бы файл: ${fileName}`);
+                    const fileName = this.querySelector('span').textContent;
+                    console.log(`Открытие файла: ${fileName}`);
+                    // В реальном проекте здесь будет переход на соответствующую страницу
                 });
             });
         });
