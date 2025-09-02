@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тетрадь по этике ИИ: Дикий робот</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .workbook {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: floatBubble 15s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 70px;
+            height: 70px;
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 50px;
+            height: 50px;
+            bottom: 25%;
+            right: 10%;
+            animation-delay: 6s;
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
+
+        .page {
+            padding: 30px;
+            min-height: 600px;
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title-page {
+            background: linear-gradient(135deg, #FFE5B4 0%, #FFEAA7 100%);
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-title {
+            font-size: 2.8em;
+            color: #4a6bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.6em;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .author-line {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .comic-title {
+            font-size: 1.8em;
+            color: #4a6bff;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble {
+            background: #f8f9fa;
+            border: 3px solid #4a6bff;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 30px;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-top-color: #4a6bff;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 32px;
+            width: 0;
+            height: 0;
+            border: 13px solid transparent;
+            border-top-color: #f8f9fa;
+        }
+
+        .question-bubble {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-color: #4a6bff;
+        }
+
+        .question-bubble::after {
+            border-top-color: #4a6bff;
+        }
+
+        .question-bubble::before {
+            border-top-color: #E3F2FD;
+        }
+
+        .drawing-area {
+            border: 3px dashed #F39C12;
+            border-radius: 15px;
+            min-height: 200px;
+            margin: 20px 0;
+            background: white;
+            position: relative;
+            cursor: crosshair;
+        }
+
+        .drawing-canvas {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+        }
+
+        .comic-panel {
+            border: 4px solid #4a6bff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            background: white;
+            min-height: 180px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .panel-title {
+            background: #4a6bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #4a6bff;
+            box-shadow: 0 0 15px rgba(74, 107, 255, 0.3);
+        }
+
+        .button {
+            background: linear-gradient(45deg, #4a6bff, #6c8eff);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .page-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        .character {
+            font-size: 4em;
+            animation: bounce 2s infinite ease-in-out;
+            margin: 20px 0;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .intro-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .conclusion-box {
+            background: linear-gradient(135deg, #D4EDDA, #C3E6CB);
+            border: 3px solid #28A745;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .drawing-tools {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-btn.active {
+            border-width: 4px;
+            transform: scale(1.2);
+        }
+
+        .scenario-box {
+            background: linear-gradient(135deg, #FFF3CD, #FFEAA7);
+            border: 3px solid #F39C12;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .save-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(74, 107, 255, 0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        .choice-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .choice-card {
+            background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+            border-radius: 15px;
+            padding: 20px;
+            width: 45%;
+            min-width: 250px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: #4a6bff;
+        }
+
+        .choice-card.selected {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-color: #4a6bff;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .workbook {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 2.2em;
+            }
+            
+            .subtitle {
+                font-size: 1.4em;
+            }
+            
+            .nav-buttons {
+                bottom: 20px;
+                right: 20px;
+                flex-direction: column;
+            }
+            
+            .page-indicator {
+                top: 20px;
+                right: 20px;
+            }
+            
+            .save-indicator {
+                bottom: 100px;
+                left: 20px;
+            }
+            
+            .button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .character {
+                font-size: 3em;
+            }
+            
+            .choice-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="workbook">
+        <div class="decoration">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        
+        <!-- Титульная страница -->
+        <div class="page active title-page">
+            <div style="text-align: center;">
+                <h1 class="main-title">ТЕТРАДЬ ПО ЭТИКЕ ИИ</h1>
+                <h2 class="subtitle">"ДИКИЙ РОБОТ"</h2>
+                <p class="author-line">по книге Питера Брауна</p>
+                
+                <div style="margin: 40px 0;">
+                    <div class="character">🌿🤖✨</div>
+                </div>
+                
+                <button class="button" onclick="nextPage()">Начать приключение! 🚀</button>
+            </div>
+        </div>
+
+        <!-- Введение -->
+        <div class="page">
+            <h2 class="comic-title">🌿 Введение</h2>
+            <div class="speech-bubble">
+                <p class="intro-text">Добро пожаловать в мир Роз — робота, который оказался на необитаемом острове и научился жить в гармонии с природой и животными. Эта рабочая тетрадь поможет тебе задуматься об этике, технологиях и дружбе.</p>
+                <p class="intro-text">Здесь ты найдешь вопросы для размышления 💬, места для рисования 🎨 и даже задания по созданию комиксов!</p>
+            </div>
+            <div style="text-align: center; margin: 30px 0;">
+                <div class="character">🌲🤖🦝</div>
+                <p style="font-size: 1.1em; color: #666;">Готов исследовать мир этики вместе с Роз?</p>
+            </div>
+        </div>
+
+        <!-- Что делает существо "живым"? -->
+        <div class="page">
+            <h2 class="comic-title">💭 Что делает существо "живым"?</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Ситуация:</strong> Роз начинала как обычная машина, но со временем научилась чувствовать, заботиться и любить.</p>
+                <p><strong>Вопрос:</strong> Что на твой взгляд делает существо по-настоящему "живым"?</p>
+            </div>
+            
+            <div class="choice-container">
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Способность думать</h3>
+                    <p>Умение решать проблемы и учиться</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Способность чувствовать</h3>
+                    <p>Умение любить, грустить, радоваться</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Способность помогать</h3>
+                    <p>Забота о других и самопожертвование</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice1')">
+                    <h3>Другое</h3>
+                    <p>Что-то еще, что делает нас живыми</p>
+                </div>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Почему ты так считаешь? Может ли машина стать "живой"?</strong>
+                <textarea class="text-input" placeholder="Поделись своими мыслями..." data-save="living-being"></textarea>
+            </div>
+        </div>
+
+        <!-- Ответственность создателей -->
+        <div class="page">
+            <h2 class="comic-title">⚖️ Ответственность создателей</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Ситуация:</strong> Создатели Роз считали ее просто "сломанным устройством", которое нужно вернуть, хотя она стала членом семьи для животных острова.</p>
+                <p><strong>Вопрос:</strong> Должны ли создатели нести ответственность за свои творения?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Если бы ты создал робота, который начал думать и чувствовать, как бы ты поступил?</strong>
+                <textarea class="text-input" placeholder="Опиши свою позицию..." data-save="responsibility"></textarea>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Нарисуй, как бы выглядел твой ответственный робот ➡️</strong>
+            </div>
+            
+            <div class="drawing-area">
+                <canvas class="drawing-canvas" id="responsibleRobot" width="800" height="200"></canvas>
+            </div>
+            
+            <div class="drawing-tools">
+                <div class="color-btn active" style="background: #333;" onclick="changeColor('#333', this)"></div>
+                <div class="color-btn" style="background: #E74C3C;" onclick="changeColor('#E74C3C', this)"></div>
+                <div class="color-btn" style="background: #3498DB;" onclick="changeColor('#3498DB', this)"></div>
+                <div class="color-btn" style="background: #2ECC71;" onclick="changeColor('#2ECC71', this)"></div>
+                <div class="color-btn" style="background: #F39C12;" onclick="changeColor('#F39C12', this)"></div>
+                <div class="color-btn" style="background: #9B59B6;" onclick="changeColor('#9B59B6', this)"></div>
+                <button class="button" onclick="clearCanvas('responsibleRobot')">Очистить</button>
+            </div>
+        </div>
+
+        <!-- Права роботов -->
+        <div class="page">
+            <h2 class="comic-title">📜 Права роботов</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Ситуация:</strong> RECCO-роботы видят в Роз просто "технику", но животные острова считают ее личностью и другом.</p>
+                <p><strong>Вопрос:</strong> Должны ли думающие и чувствующие машины иметь права?</p>
+            </div>
+            
+            <div class="choice-container">
+                <div class="choice-card" onclick="selectChoice(this, 'choice2')">
+                    <h3>Да, конечно</h3>
+                    <p>Если робот умеет чувствовать, у него должны быть права</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice2')">
+                    <h3>Только некоторые права</h3>
+                    <p>Возможно, не все права как у людей, но основные</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice2')">
+                    <h3>Нет, это просто машины</h3>
+                    <p>Роботы созданы для службы людям</p>
+                </div>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Какие права, по твоему мнению, могли бы быть у роботов? (например, право на существование, право на дружбу)</strong>
+                <textarea class="text-input" placeholder="Перечисли права, которые ты бы дал роботам..." data-save="robot-rights"></textarea>
+            </div>
+        </div>
+
+        <!-- Технологии и природа -->
+        <div class="page">
+            <h2 class="comic-title">🌍 Технологии и природа</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Ситуация:</strong> Роз не пыталась изменить природу под себя, а научилась жить в гармонии с ней, помогая животным.</p>
+                <p><strong>Вопрос:</strong> Как технологии могут помогать природе, а не вредить ей?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Придумай технологическое изобретение, которое могло бы помогать природе</strong>
+                <textarea class="text-input" placeholder="Опиши свое изобретение и как оно работает..." data-save="tech-nature"></textarea>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Нарисуй свое изобретение ➡️</strong>
+            </div>
+            
+            <div class="drawing-area">
+                <canvas class="drawing-canvas" id="techNature" width="800" height="200"></canvas>
+            </div>
+            
+            <div class="drawing-tools">
+                <div class="color-btn active" style="background: #333;" onclick="changeColor('#333', this)"></div>
+                <div class="color-btn" style="background: #E74C3C;" onclick="changeColor('#E74C3C', this)"></div>
+                <div class="color-btn" style="background: #3498DB;" onclick="changeColor('#3498DB', this)"></div>
+                <div class="color-btn" style="background: #2ECC71;" onclick="changeColor('#2ECC71', this)"></div>
+                <div class="color-btn" style="background: #F39C12;" onclick="changeColor('#F39C12', this)"></div>
+                <div class="color-btn" style="background: #9B59B6;" onclick="changeColor('#9B59B6', this)"></div>
+                <button class="button" onclick="clearCanvas('techNature')">Очистить</button>
+            </div>
+        </div>
+
+        <!-- Наблюдение и конфиденциальность -->
+        <div class="page">
+            <h2 class="comic-title">👀 Наблюдение и конфиденциальность</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Ситуация:</strong> Роз наблюдала за животными, чтобы понять их и помочь, но всегда ли наблюдение — это хорошо?</p>
+                <p><strong>Вопрос:</strong> Где граница между полезным наблюдением и нарушением личного пространства?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Как ты думаешь, когда наблюдение становится нарушением privacy (личного пространства)?</strong>
+                <textarea class="text-input" placeholder="Приведи примеры..." data-save="privacy"></textarea>
+            </div>
+
+            <div class="choice-container">
+                <div class="choice-card" onclick="selectChoice(this, 'choice3')">
+                    <h3>Наблюдение допустимо</h3>
+                    <p>Если цель — помощь и забота о других</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice3')">
+                    <h3>Наблюдение недопустимо</h3>
+                    <p>Всегда нужно спрашивать разрешение</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice(this, 'choice3')">
+                    <h3>Зависит от ситуации</h3>
+                    <p>Иногда можно, иногда нет</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ответственное использование технологий -->
+        <div class="page">
+            <h2 class="comic-title">🔧 Ответственное использование технологий</h2>
+            
+            <div class="scenario-box">
+                <p><strong>Ситуация:</strong> Робособаки RECCO были созданы для одной цели, но использовались для поимки Роз, угрожая всему острову.</p>
+                <p><strong>Вопрос:</strong> Должны ли создатели думать о том, как их технологии могут быть использованы не по назначению?</p>
+            </div>
+            
+            <div class="speech-bubble question-bubble">
+                <strong>💬 Придумай правила ответственного использования технологий</strong>
+                <textarea class="text-input" placeholder="Какие правила помогут использовать технологии во благо?..." data-save="responsible-tech"></textarea>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Создай комикс о ответственном использовании технологий ➡️</strong>
+            </div>
+
+            <div class="comic-panel">
+                <div class="panel-title">Панель 1: Технология создана</div>
+                <canvas class="drawing-canvas" id="techComic1" width="800" height="150"></canvas>
+                <div class="speech-bubble" style="margin-top: 15px;">
+                    <input type="text" placeholder="Что говорит создатель?" style="border: none; outline: none; width: 100%; font-size: 16px;" data-save="comic3-text">
+                </div>
+            </div>
+
+            <div class="comic-panel">
+                <div class="panel-title">Панель 2: Ответственное использование</div>
+                <canvas class="drawing-canvas" id="techComic2" width="800" height="150"></canvas>
+                <div class="speech-bubble" style="margin-top: 15px;">
+                    <input type="text" placeholder="Как используют технологию?" style="border: none; outline: none; width: 100%; font-size: 16px;" data-save="comic4-text">
+                </div>
+            </div>
+
+            <div class="drawing-tools">
+                <div class="color-btn active" style="background: #333;" onclick="changeColor('#333', this)"></div>
+                <div class="color-btn" style="background: #E74C3C;" onclick="changeColor('#E74C3C', this)"></div>
+                <div class="color-btn" style="background: #3498DB;" onclick="changeColor('#3498DB', this)"></div>
+                <div class="color-btn" style="background: #2ECC71;" onclick="changeColor('#2ECC71', this)"></div>
+                <div class="color-btn" style="background: #F39C12;" onclick="changeColor('#F39C12', this)"></div>
+                <div class="color-btn" style="background: #9B59B6;" onclick="changeColor('#9B59B6', this)"></div>
+                <button class="button" onclick="clearCanvas('techComic1')">Очистить панель 1</button>
+                <button class="button" onclick="clearCanvas('techComic2')">Очистить панель 2</button>
+            </div>
+        </div>
+
+        <!-- Заключение -->
+        <div class="page">
+            <h2 class="comic-title">⚡ Заключение</h2>
+            
+            <div class="conclusion-box">
+                <div class="character">🌍🤖</div>
+                <p style="font-size: 1.3em; margin-bottom: 20px;">Этика — это не просто правила, а умение делать правильный выбор.</p>
+                <p style="font-size: 1.1em;">Пусть твои рисунки и размышления помогут понять, каким должен быть мир, когда люди и роботы живут вместе!</p>
+            </div>
+
+            <div class="speech-bubble">
+                <strong>Самое главное, что я понял(а) из этой тетради:</strong>
+                <textarea class="text-input" placeholder="Опиши свои главные выводы..." data-save="conclusion"></textarea>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="button" onclick="showSummary()">Показать мои ответы 📋</button>
+                <button class="button" onclick="saveWorkbook()" style="background: linear-gradient(45deg, #2E86AB, #2E86AB);">Сохранить работу 💾</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-indicator">
+        Страница <span id="currentPage">1</span> из <span id="totalPages">9</span>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">Работа сохранена!</div>
+
+    <div class="nav-buttons">
+        <button class="button" onclick="prevPage()" id="prevBtn" style="display: none;">← Назад</button>
+        <button class="button" onclick="nextPage()" id="nextBtn">Вперед →</button>
+    </div>
+
+    <script>
+        let currentPageIndex = 0;
+        let isDrawing = false;
+        let currentColor = '#333';
+        const pages = document.querySelectorAll('.page');
+        const totalPages = pages.length;
+
+        document.getElementById('totalPages').textContent = totalPages;
+
+        // Навигация по страницам
+        function showPage(index) {
+            pages.forEach(page => page.classList.remove('active'));
+            pages[index].classList.add('active');
+            
+            document.getElementById('currentPage').textContent = index + 1;
+            document.getElementById('prevBtn').style.display = index > 0 ? 'block' : 'none';
+            document.getElementById('nextBtn').style.display = index < totalPages - 1 ? 'block' : 'none';
+            
+            // Автосохранение при переходе между страницами
+            saveToLocalStorage();
+        }
+
+        function nextPage() {
+            if (currentPageIndex < totalPages - 1) {
+                currentPageIndex++;
+                showPage(currentPageIndex);
+            }
+        }
+
+        function prevPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                showPage(currentPageIndex);
+            }
+        }
+
+        // Функция выбора варианта ответа
+        function selectChoice(card, choiceGroup) {
+            // Снимаем выделение со всех карточек в этой группе выбора
+            document.querySelectorAll('.choice-card').forEach(c => {
+                if (c !== card && c.onclick.toString().includes(choiceGroup)) {
+                    c.classList.remove('selected');
+                }
+            });
+            
+            // Переключаем выделение на выбранную карточку
+            card.classList.toggle('selected');
+            saveToLocalStorage();
+        }
+
+        // Функциональность рисования
+        function setupCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // События касания для мобильных устройств
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                draw(e);
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = currentColor;
+                
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            }
+            
+            function stopDrawing() {
+                if (isDrawing) {
+                    isDrawing = false;
+                    ctx.beginPath();
+                    saveToLocalStorage(); // Сохранение после рисования
+                }
+            }
+            
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                 e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+        }
+
+        // Инициализация всех холстов
+        ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(setupCanvas);
+
+        function clearCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                saveToLocalStorage(); // Сохранение после очистки
+            }
+        }
+
+        function changeColor(color, element) {
+            currentColor = color;
+            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // Функциональность автосохранения
+        function saveToLocalStorage() {
+            // Сохранение текстовых полей
+            document.querySelectorAll('[data-save]').forEach(element => {
+                if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
+                    localStorage.setItem('ru_' + element.dataset.save, element.value);
+                }
+            });
+            
+            // Сохранение выбранных вариантов
+            document.querySelectorAll('.choice-card.selected').forEach(card => {
+                const choiceText = card.querySelector('h3').textContent;
+                localStorage.setItem('ru_choice_' + card.onclick.toString().match(/'(choice\d+)'/)[1], choiceText);
+            });
+            
+            // Сохранение рисунков
+            ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(canvasId => {
+                const canvas = document.getElementById(canvasId);
+                if (canvas) {
+                    localStorage.setItem('ru_' + canvasId, canvas.toDataURL());
+                }
+            });
+            
+            // Показать индикатор сохранения
+            const indicator = document.getElementById('saveIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2000);
+        }
+
+        function loadFromLocalStorage() {
+            // Загрузка текстовых полей
+            document.querySelectorAll('[data-save]').forEach(element => {
+                const saved = localStorage.getItem('ru_' + element.dataset.save);
+                if (saved) {
+                    element.value = saved;
+                }
+            });
+            
+            // Загрузка выбранных вариантов
+            document.querySelectorAll('.choice-card').forEach(card => {
+                const choiceGroup = card.onclick.toString().match(/'(choice\d+)'/)[1];
+                const savedChoice = localStorage.getItem('ru_choice_' + choiceGroup);
+                if (savedChoice && card.querySelector('h3').textContent === savedChoice) {
+                    card.classList.add('selected');
+                }
+            });
+            
+            // Загрузка рисунков
+            ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(canvasId => {
+                const canvas = document.getElementById(canvasId);
+                const ctx = canvas.getContext('2d');
+                const saved = localStorage.getItem('ru_' + canvasId);
+                
+                if (saved) {
+                    const img = new Image();
+                    img.onload = function() {
+                        ctx.drawImage(img, 0, 0);
+                    };
+                    img.src = saved;
+                }
+            });
+        }
+
+        function saveWorkbook() {
+            saveToLocalStorage();
+            alert('Твоя работа сохранена! Ты можешь вернуться к ней позже.');
+        }
+
+        function showSummary() {
+            let summary = "📋 Твои ответы:\n\n";
+            
+            // Собираем выбранные варианты
+            document.querySelectorAll('.choice-card.selected').forEach(card => {
+                const question = card.closest('.page').querySelector('.comic-title').textContent;
+                const answer = card.querySelector('h3').textContent;
+                summary += `${question}: ${answer}\n\n`;
+            });
+            
+            // Собираем текстовые ответы
+            document.querySelectorAll('[data-save]').forEach(element => {
+                if (element.value.trim() && element.tagName === 'TEXTAREA') {
+                    const label = element.closest('.speech-bubble').querySelector('strong').textContent;
+                    summary += `${label}\n${element.value.trim()}\n\n`;
+                }
+            });
+            
+            if (summary === "📋 Твои ответы:\n\n") {
+                alert("Ты еще ничего не написал! Заполни хотя бы несколько полей.");
+            } else {
+                alert(summary);
+            }
+        }
+
+        // Навигация с клавиатуры
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevPage();
+            }
+        });
+
+        // Загрузка сохраненных данных при запуске
+        window.addEventListener('load', function() {
+            loadFromLocalStorage();
+        });
+    </script>
+</body>
+</html>
