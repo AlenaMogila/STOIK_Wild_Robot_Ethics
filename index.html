@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дикий робот - Рабочая тетрадь по этике ИИ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            color: #2E86AB;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            color: #FF6B35;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 1.2em;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .menu-title {
+            font-size: 1.8em;
+            color: #2E86AB;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .menu-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .menu-button {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: auto;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .russian { background: linear-gradient(135deg, #b21f1f, #ffd194); }
+        .english { background: linear-gradient(135deg, #1a2a6c, #7579ff); }
+        .resources { background: linear-gradient(135deg, #00b09b, #96c93d); }
+
+        .russian .menu-title { color: #b21f1f; }
+        .english .menu-title { color: #1a2a6c; }
+        .resources .menu-title { color: #00b09b; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 1em;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .robot-animation {
+            font-size: 3em;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.4em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="main-title">🤖 Дикий робот</h1>
+            <h2 class="subtitle">Рабочая тетрадь по этике ИИ</h2>
+            <div class="robot-animation">🌲🤖🦊</div>
+            <p class="description">
+                Интерактивная рабочая тетрадь по книге Питера Брауна "Дикий робот" для изучения этики искусственного интеллекта с детьми 10-12 лет.
+            </p>
+        </header>
+
+        <div class="menu-grid">
+            <div class="menu-item russian">
+                <div class="menu-icon">🇷🇺</div>
+                <h3 class="menu-title">Русская версия</h3>
+                <p class="menu-description">
+                    Полностью переведенная и адаптированная рабочая тетрадь на русском языке с дополнительными заданиями.
+                </p>
+                <a href="#" class="menu-button">Открыть тетрадь</a>
+            </div>
+
+            <div class="menu-item english">
+                <div class="menu-icon">🇺🇸</div>
+                <h3 class="menu-title">English Version</h3>
+                <p class="menu-description">
+                    Original English version of the AI Ethics workbook based on "The Wild Robot" by Peter Brown.
+                </p>
+                <a href="#" class="menu-button">Open Workbook</a>
+            </div>
+
+            <div class="menu-item resources">
+                <div class="menu-icon">📚</div>
+                <h3 class="menu-title">Материалы и ссылки</h3>
+                <p class="menu-description">
+                    Дополнительные материалы, ссылки на ресурсы по этике ИИ и методические рекомендации для преподавателей.
+                </p>
+                <a href="#" class="menu-button">Открыть материалы</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 Дикий робот - Рабочая тетрадь по этике ИИ | По книге Питера Брауна</p>
+        </footer>
+    </div>
+
+    <script>
+        // Добавляем интерактивность для кнопок
+        document.querySelectorAll('.menu-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Анимация нажатия
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                // В реальном проекте здесь будет переход на соответствующую страницу
+                const title = this.parentElement.querySelector('.menu-title').textContent;
+                alert(`В реальном проекте здесь будет переход к: ${title}`);
+            });
+        });
+    </script>
+</body>
+</html>
