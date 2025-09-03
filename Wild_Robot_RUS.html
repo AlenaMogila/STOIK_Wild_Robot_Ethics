@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тетрадь по этике ИИ: Дикий робот</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Подключаем библиотеку html2pdf -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -403,45 +401,6 @@
             transform: scale(1.05);
         }
 
-        /* Стили для кнопок скачивания */
-        .download-buttons {
-            position: fixed;
-            top: 30px;
-            left: 30px;
-            display: flex;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        .download-btn {
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-
-        .download-btn.pdf {
-            background: linear-gradient(45deg, #dc3545, #e35d6a);
-        }
-
-        .download-btn.png {
-            background: linear-gradient(45deg, #17a2b8, #39c0d3);
-        }
-
         @media (max-width: 768px) {
             .workbook {
                 margin: 10px;
@@ -476,12 +435,6 @@
                 left: 20px;
             }
             
-            .download-buttons {
-                top: 20px;
-                left: 20px;
-                flex-direction: column;
-            }
-            
             .button {
                 padding: 10px 20px;
                 font-size: 14px;
@@ -498,16 +451,6 @@
     </style>
 </head>
 <body>
-    <!-- Кнопки скачивания -->
-    <div class="download-buttons">
-        <button class="download-btn pdf" onclick="downloadPDF()">
-            <i class="fas fa-file-pdf"></i> PDF
-        </button>
-        <button class="download-btn png" onclick="downloadPNG()">
-            <i class="fas fa-image"></i> PNG
-        </button>
-    </div>
-
     <div class="workbook">
         <div class="decoration">
             <div class="bubble"></div>
@@ -859,8 +802,8 @@
                 if (!isDrawing) return;
                 
                 const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                const x = (e.clientX || e.touches[0.clientX) - rect.left;
+                const y = (e.clientY || e.touches[0.clientY) - rect.top;
                 
                 ctx.lineWidth = 3;
                 ctx.lineCap = 'round';
@@ -1001,29 +944,6 @@
             } else {
                 alert(summary);
             }
-        }
-
-        // Функции для скачивания PDF и PNG
-        function downloadPDF() {
-            const element = document.querySelector('.workbook');
-            const opt = {
-                margin: 10,
-                filename: 'тетрадь_по_этике_ИИ_дикий_робот.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            html2pdf().set(opt).from(element).save();
-        }
-
-        function downloadPNG() {
-            html2canvas(document.querySelector('.workbook')).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'тетрадь_по_этике_ИИ_дикий_робот.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
         }
 
         // Навигация с клавиатуры
