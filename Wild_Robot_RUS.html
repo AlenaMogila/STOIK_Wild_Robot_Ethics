@@ -289,6 +289,30 @@
             z-index: 1000;
         }
 
+        .back-to-menu {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: bold;
+            z-index: 1000;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-to-menu:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
         .character {
             font-size: 4em;
             animation: bounce 2s infinite ease-in-out;
@@ -430,6 +454,13 @@
                 right: 20px;
             }
             
+            .back-to-menu {
+                top: 20px;
+                left: 20px;
+                padding: 8px 15px;
+                font-size: 12px;
+            }
+            
             .save-indicator {
                 bottom: 100px;
                 left: 20px;
@@ -451,6 +482,8 @@
     </style>
 </head>
 <body>
+    <a href="index.html" class="back-to-menu">← В главное меню</a>
+
     <div class="workbook">
         <div class="decoration">
             <div class="bubble"></div>
@@ -499,7 +532,7 @@
             <div class="choice-container">
                 <div class="choice-card" onclick="selectChoice(this, 'choice1')">
                     <h3>Способность думать</h3>
-                    <p>Умение решать проблемы и учиться</p>
+                    <p>Умение решает проблемы и учиться</p>
                 </div>
                 <div class="choice-card" onclick="selectChoice(this, 'choice1')">
                     <h3>Способность чувствовать</h3>
@@ -744,7 +777,7 @@
             document.getElementById('prevBtn').style.display = index > 0 ? 'block' : 'none';
             document.getElementById('nextBtn').style.display = index < totalPages - 1 ? 'block' : 'none';
             
-            // Автосохранение при переходе между страницами
+            // Автосохранение при переходе между страницам
             saveToLocalStorage();
         }
 
@@ -802,8 +835,15 @@
                 if (!isDrawing) return;
                 
                 const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0.clientX) - rect.left;
-                const y = (e.clientY || e.touches[0.clientY) - rect.top;
+                let x, y;
+                
+                if (e.type.includes('touch')) {
+                    x = e.touches[0].clientX - rect.left;
+                    y = e.touches[0].clientY - rect.top;
+                } else {
+                    x = e.clientX - rect.left;
+                    y = e.clientY - rect.top;
+                }
                 
                 ctx.lineWidth = 3;
                 ctx.lineCap = 'round';
@@ -934,7 +974,7 @@
             // Собираем текстовые ответы
             document.querySelectorAll('[data-save]').forEach(element => {
                 if (element.value.trim() && element.tagName === 'TEXTAREA') {
-                    const label = element.closest('.speech-bubble').querySelector('strong').textContent;
+                    const label = element.closest('.speech-bubble').query.querySelector('strong').textContent;
                     summary += `${label}\n${element.value.trim()}\n\n`;
                 }
             });
@@ -960,6 +1000,7 @@
         // Загрузка сохраненных данных при запуске
         window.addEventListener('load', function() {
             loadFromLocalStorage();
+            showPage(currentPageIndex);
         });
     </script>
 </body>
