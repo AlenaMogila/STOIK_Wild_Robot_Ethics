@@ -511,7 +511,7 @@
         <div class="page">
             <h2 class="comic-title">🌿 Введение</h2>
             <div class="speech-bubble">
-                <p class="intro-text">Добро пожаловать в мир Роз — робота, которfz оказалась на необитаемом острове и научилась жить в гармонии с природой и животными.</p>
+                <p class="intro-text">Добро пожаловать в мир Роз — робота, который оказался на необитаемом острове и научился жить в гармонии с природой и животными.</p>
                 <p class="intro-text">Здесь можно отвечать на вопросы, размышлять 💬, рисовать 🎨 и даже создать комикс</p>
             </div>
             <div style="text-align: center; margin: 30px 0;">
@@ -744,6 +744,7 @@
             <div style="text-align: center; margin-top: 30px;">
                 <button class="button" onclick="showSummary()">Показать мои ответы 📋</button>
                 <button class="button" onclick="saveWorkbook()" style="background: linear-gradient(45deg, #2E86AB, #2E86AB);">Сохранить работу 💾</button>
+                <button class="button" onclick="clearAll()" style="background: linear-gradient(45deg, #E74C3C, #E74C3C);">Очистить все ❌</button>
             </div>
         </div>
     </div>
@@ -893,6 +894,33 @@
             element.classList.add('active');
         }
 
+        // Функция очистки всех полей
+        function clearAll() {
+            if (confirm("Вы уверены, что хотите очистить все поля? Это действие нельзя отменить.")) {
+                // Очистка текстовых полей
+                document.querySelectorAll('[data-save]').forEach(element => {
+                    if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
+                        element.value = '';
+                    }
+                });
+                
+                // Очистка выбранных вариантов
+                document.querySelectorAll('.choice-card.selected').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                // Очистка рисунков
+                ['responsibleRobot', 'techNature', 'techComic1', 'techComic2'].forEach(canvasId => {
+                    clearCanvas(canvasId);
+                });
+                
+                // Очистка localStorage
+                localStorage.clear();
+                
+                alert("Все поля очищены!");
+            }
+        }
+
         // Функциональность автосохранения
         function saveToLocalStorage() {
             // Сохранение текстовых полей
@@ -974,7 +1002,7 @@
             // Собираем текстовые ответы
             document.querySelectorAll('[data-save]').forEach(element => {
                 if (element.value.trim() && element.tagName === 'TEXTAREA') {
-                    const label = element.closest('.speech-bubble').query.querySelector('strong').textContent;
+                    const label = element.closest('.speech-bubble').querySelector('strong').textContent;
                     summary += `${label}\n${element.value.trim()}\n\n`;
                 }
             });
